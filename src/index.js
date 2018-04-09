@@ -1,3 +1,8 @@
+import { setGrayAtPixel } from './utils';
+import perlin from './perlin';
+
+const pixelGrid = perlin();
+
 var elem = document.getElementById('myCanvas');
 if (elem && elem.getContext) {
   // Get the 2d context.
@@ -9,11 +14,11 @@ if (elem && elem.getContext) {
     var pix = imgd.data;
 
     // Loop over each pixel and invert the color.
-    for (var i = 0, n = pix.length; i < n; i += 4) {
-      pix[i] = 0;
-      pix[i + 1] = 0;
-      pix[i + 2] = 0;
-      pix[i + 3] = 255;
+    let pixCount = 0;
+    for (var i = 0; i < pix.length; i += 4) {
+      const colorValue = pixelGrid[pixCount] * 255;
+      setGrayAtPixel(pix, i, colorValue);
+      pixCount++;
     }
 
     // Draw the ImageData at the given (x,y) coordinates.
